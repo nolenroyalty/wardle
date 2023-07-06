@@ -52,6 +52,7 @@ def to_result(guess, answer):
     for idx, g in enumerate(guess):
         if g in count and count[g] > 0 and chars[idx] == WHITE:
             chars[idx] = YELLOW
+            count[g] -= 1
 
     return "".join(chars)
 
