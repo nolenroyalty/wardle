@@ -24,7 +24,6 @@ app = Flask(__name__, static_folder="static")
 app.answers = get_answers()
 app.guesses = get_guesses()
 word = random.choice(list(app.answers))
-word = "greet"
 print(f"The word is {word}")
 
 def with_header(content):
