@@ -35,8 +35,8 @@ def with_header(content):
     <body> {content} </body></html>"""
 
 @app.route("/")
-def hello_world():
-    return with_header("Hey hey")
+def home():
+    return with_header("<p>Right click on the address bar to install the search engine.</p>")
 
 @app.route("/search")
 def search():
@@ -54,14 +54,6 @@ def to_result(guess, answer):
             chars[idx] = YELLOW
 
     return "".join(chars)
-
-def get_errors(guesses):
-    errors = []
-    for guess in guesses:
-        if len(guess) < 5: errors.append(f"{guess} | less than 5 characters")
-        if len(guess) > 5: errors.append(f"{guess} | greater than 5 characters")
-        if guess not in app.guesses: errors.append(f"{guess} not in wordlist")
-    return errors
 
 def maybe_error(guess):
     if len(guess) < 5: return f"less than 5 characters"
