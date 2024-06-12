@@ -62,6 +62,17 @@ def maybe_error(guess):
     if guess not in app.guesses: return f"not in wordlist"
     return None
 
+def get_fixed_width_char(letter):
+    fixed_width_chars = {
+        'a': 'ａ', 'b': 'ｂ', 'c': 'ｃ', 'd': 'ｄ', 'e': 'ｅ',
+        'f': 'ｆ', 'g': 'ｇ', 'h': 'ｈ', 'i': 'ｉ', 'j': 'ｊ',
+        'k': 'ｋ', 'l': 'ｌ', 'm': 'ｍ', 'n': 'ｎ', 'o': 'ｏ',
+        'p': 'ｐ', 'q': 'ｑ', 'r': 'ｒ', 's': 'ｓ', 't': 'ｔ',
+        'u': 'ｕ', 'v': 'ｖ', 'w': 'ｗ', 'x': 'ｘ', 'y': 'ｙ',
+        'z': 'ｚ'
+    }
+    return fixed_width_chars.get(letter, letter)
+
 @app.route("/game")
 def game():
     query = request.args.get("q")
@@ -77,13 +88,17 @@ def game():
             response.append("Enter a wordle guess")
         for guess in guesses[::-1]:
             error = maybe_error(guess)
+            fixed_width = "".join(get_fixed_width_char(c) for c in guess)
             if error is None: 
                 result = to_result(guess, word)
-                s = f"{guess} | {result}"
+                s = f"{fixed_width} | {result}"
                 if result == GREEN * 5:
-                    s = f"{s} | CORRECT!"
+                    s = f"{fixed_width} | CORRECT!"
                 response.append(s)
             else:
-                response.append(f"{guess} | ERROR: {error}")
+                response.append(f"{fixed_width} | ERROR: {error}")
 
     return [query, response]
+
+if __name__ == "__main__":
+    app.run(debug=True)
