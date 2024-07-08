@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect
+from flask import Flask, request
 from collections import defaultdict
 import re
 import random
@@ -19,17 +19,18 @@ def get_guesses():
             if l: guesses.add(l)
     return guesses
 
+
 app = Flask(__name__, static_folder="static")
 app.answers = get_answers()
 app.guesses = get_guesses()
-app.word = random.choice(list(app.answers))
-print(f"The word is {app.word}")
+word = random.choice(list(app.answers))
+print(f"The word is {word}")
 
 def with_header(content):
     return f"""
 <html>
     <head>
-        <link rel="search" type="application/opensearchdescription+xml" title="searchGame" href="http://localhost:5000/static/opensearch.xml" />
+        <link rel="search" type="application/opensearchdescription+xml" title="searchGame" href="http://searchgame:5000/static/opensearch.xml" />
     </head>
     <body> {content} </body></html>"""
 
@@ -89,7 +90,7 @@ def game():
             error = maybe_error(guess)
             fixed_width = "".join(get_fixed_width_char(c) for c in guess)
             if error is None: 
-                result = to_result(guess, app.word)
+                result = to_result(guess, word)
                 s = f"{fixed_width} | {result}"
                 if result == GREEN * 5:
                     s = f"{fixed_width} | CORRECT!"
@@ -98,12 +99,6 @@ def game():
                 response.append(f"{fixed_width} | ERROR: {error}")
 
     return [query, response]
-
-@app.route("/refresh")
-def refresh():
-    app.word = random.choice(list(app.answers))
-    print(f"The new word is {app.word}")
-    return redirect("/")
 
 if __name__ == "__main__":
     app.run(debug=True)
