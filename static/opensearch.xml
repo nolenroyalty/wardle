@@ -5,7 +5,7 @@
   <Description>Play a game in the searchbar</Description>
   <InputEncoding>[UTF-8]</InputEncoding>
   <!--<Image width="16" height="16" type="image/x-icon">[https://example.com/favicon.ico]</Image>-->
-  <Url type="text/html" template="http://searchgame:5000/search?q={searchTerms}"/>
-  <Url type="application/x-suggestions+json" template="http://searchgame:5000/game?q={searchTerms}"/>
+  <Url type="text/html" template="http://localhost:5000/search?q={searchTerms}"/>
+  <Url type="application/x-suggestions+json" template="http://localhost:5000/game?q={searchTerms}"/>
   <moz:SearchForm>http://searchgame/search</moz:SearchForm>
 </OpenSearchDescription>
